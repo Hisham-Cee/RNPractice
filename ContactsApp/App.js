@@ -7,7 +7,7 @@ export default function App(){
       <View style={styles.textContainer}>
       <Text style={styles.text}>Total contacts 6</Text>
       </View>
-      <Card>Ziya</Card>
+      <Card person='Ali' phone='+91 9995464543'/>
     </View>
   );
 };
@@ -15,17 +15,17 @@ export default function App(){
 const styles = StyleSheet.create({
   rootContainer:{
     flex: 1,
-    padding: 30,
+    padding: 15,
     paddingTop: 80,
     backgroundColor: '#cac9c9ff'
   },
   textContainer:{
     justifyContent: 'center',
    alignItems: 'center',
-   marginBottom: 15
+   marginBottom: 20
   },
   text:{
    fontSize: 16,
-   color: '#424242ff'
+   color: '#424242ff',
   }
 });

@@ -1,13 +1,17 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-function Card({children}){
+function Card({person, phone}){
     return(
         <View style={styles.rootContainer}>
-            <Text style={styles.nameText}>{children}</Text>
-            <Text style={styles.numText}>1234567789</Text>
-            <Pressable style={styles.button}>
-                <Text style={styles.buttonText}>Call</Text>
-            </Pressable>
+            <View style={styles.subContainer}>
+                <View style={styles.align}>
+                    <Text style={styles.nameText}>{person}</Text>
+                    <Text style={styles.numText}>{phone}</Text>
+                </View>
+                <Pressable style={styles.button}>
+                    <Text style={styles.buttonText}>Call</Text>
+                </Pressable>
+            </View>
         </View>
     );
 }
@@ -21,24 +25,31 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     nameText:{
-        fontSize: 12,
-        marginBottom: 10,
+        fontSize: 18,
+    },
+    align:{
+        flexDirection:'column'
+    },
+    subContainer:{
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     numText:{
-        fontSize: 12,
+        fontSize: 16,
         color: 'green',
-        marginBottom: 10,
+        marginTop: 15
     },
     button:{
-        width: 50,
-        height: 30,
+        width: 60,
+        height: 35,
         borderRadius: 3,
         backgroundColor: 'green',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        marginTop: 15
     },
     buttonText:{
         color: '#fff',
-        fontSize: 12,
+        fontSize: 15,
     }
 });
