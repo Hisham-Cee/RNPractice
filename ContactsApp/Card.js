@@ -1,6 +1,11 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
 
 function Card({person, phone}){
+
+    function callHandler(){
+        let number = `tel:${phone}`;
+        Linking.openURL(number);
+    };
     return(
         <View style={styles.rootContainer}>
             <View style={styles.subContainer}>
@@ -8,7 +13,7 @@ function Card({person, phone}){
                     <Text style={styles.nameText}>{person}</Text>
                     <Text style={styles.numText}>{phone}</Text>
                 </View>
-                <Pressable style={styles.button}>
+                <Pressable style={styles.button} onPress={callHandler}>
                     <Text style={styles.buttonText}>Call</Text>
                 </Pressable>
             </View>
