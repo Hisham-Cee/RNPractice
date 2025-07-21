@@ -28,9 +28,30 @@ export default function Counter(){
 };
 
 const styles = StyleSheet.create({
-  rootContainer:{},
-  counter:{},
-  buttonContainer:{},
-  button:{},
-  buttonText:{}
+  rootContainer:{
+    flex: 1,
+    justifyContent:'flex-start',
+    alignItems: 'center',
+    paddingVertical: 80,
+    backgroundColor: '#eae5e5ff'
+  },
+  counter:{
+    fontSize: 56,
+  },
+  buttonContainer:{
+    flexDirection: 'row',
+    gap: 50,
+    paddingTop: 50
+  },
+  button:{
+    backgroundColor: '#fff',
+    width: 120,
+    height: 40,
+    justifyContent:'center',
+    alignItems: 'center'
+  },
+  buttonText:{
+    fontSize: 18,
+   
+  }
 });
