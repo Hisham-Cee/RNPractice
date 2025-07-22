@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import Card from "./Card";
 
 export default function App(){
@@ -17,20 +17,26 @@ export default function App(){
     { id: 11, person: 'Abi', phone: '+91 9995465321' },
   ];
 
+  const renderItem = ({item}) => {
+      return(
+        <Card 
+          person={item.person}
+          phone={item.phone}
+        />
+      );
+  }
+
   return(
     <View style={styles.rootContainer}>
       <View style={styles.textContainer}>
       <Text style={styles.text}>Total contacts {contacts.length}</Text>
       </View>
-      <ScrollView>
-        {contacts.map((contact)=>
-      <Card 
-        key={contact.id}
-        person={contact.person}
-        phone={contact.phone}
+      <FlatList
+        data={contacts}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
       />
-      )}
-      </ScrollView>
     </View>
   );
 };
