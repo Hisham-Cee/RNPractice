@@ -7,7 +7,7 @@ import Destination from "../components/DummyData/Destination";
 import DestinationCard from "../components/Cards/DestinationCard";
 
 
-function HomeScreen(){
+function HomeScreen({navigation}){
     
     return (
         <>
@@ -25,6 +25,7 @@ function HomeScreen(){
                 {City.map((city)=> (
                     <Pressable
                         key={city.id}
+                        onPress={()=> navigation.navigate('Details')}
                     >
                         <CityCard 
                             path={city.path}
