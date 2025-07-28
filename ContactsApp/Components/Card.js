@@ -1,7 +1,11 @@
 import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
+import ContactDetailsScreen from "../Screens/ContactDetailsScreen";
 
 function Card({person, phone}){
 
+    function infoHandler(){
+        <ContactDetailsScreen />
+    }
     function callHandler(){
         let number = `tel:${phone}`;
         Linking.openURL(number);
@@ -10,7 +14,9 @@ function Card({person, phone}){
         <View style={styles.rootContainer}>
             <View style={styles.subContainer}>
                 <View style={styles.align}>
-                    <Text style={styles.nameText}>{person}</Text>
+                    <Pressable onPress={infoHandler} >
+                        <Text style={styles.nameText}>{person}</Text>
+                    </Pressable>
                     <Text style={styles.numText}>{phone}</Text>
                 </View>
                 <Pressable style={styles.button} onPress={callHandler}>
