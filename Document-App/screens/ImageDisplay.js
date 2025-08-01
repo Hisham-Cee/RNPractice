@@ -1,12 +1,13 @@
 import { Image, StyleSheet, View } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 
-function ImageDisplay(){
+function ImageDisplay({route}){
+    const {uri} = route.params
     return (
         <>
         <StatusBar style="dark" />
         <View style={styles.rootContainer}>
-            <Image source={require('../assets/images/img1.png')} style={styles.img}  resizeMode="contain"/>
+            <Image source={{uri}} style={styles.img}  resizeMode="contain"/>
         </View>
         </>
     );

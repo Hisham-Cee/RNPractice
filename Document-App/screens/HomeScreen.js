@@ -1,12 +1,54 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View, Alert } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import ImageAttachment from "../components/ImageAttachments";
 import PdfAttachment from "../components/PdfAttachment";
-
+import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
+import * as Camera from 'expo-camera';
+import { useState } from "react";
 
 function HomeScreen({navigation}){
 
+    const [imageAttachments, setImageAttachments] = useState([]);
+    const [pdfAttachments, setPdfAttachments] = useState([]);
+
+    const openCamera = async () => {
+        const permission = await ImagePicker.requestCameraPermissionsAsync();
+        if (!permission.granted) {
+            Alert.alert("Permission required", "Camera access is needed");
+        return;
+        }
+        const result = await ImagePicker.launchCameraAsync({ quality: 0.5 });
+        console.log("Camera result:", result);
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            setImageAttachments(prev => [...prev, { uri: result.assets[0].uri }]);
+        }
+    };
+
+    const pickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({ quality: 0.5 });
+        console.log("Image result:", result);
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            setImageAttachments(prev => [...prev, { uri: result.assets[0].uri }]);
+        }
+    };
+
+    const pickPdf = async () => {
+        const result = await DocumentPicker.getDocumentAsync({ type: 'application/pdf' });
+        console.log("PDF result:", result);
+        if (!result.canceled) {
+            setPdfAttachments(prev => [...prev, { uri: result.uri }]);
+        }
+    };
+
+    const handleImagePress = (uri) => {
+        navigation.navigate("ImageDisplay", { uri });
+    };
+
+    const handlePdfPress = (uri) => {
+    navigation.navigate("PdfDisplay", { uri: "https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf" });
+};
     return (
         <>
         <StatusBar style="light" />
@@ -17,15 +59,15 @@ function HomeScreen({navigation}){
             <View style={styles.container}>
                 <Text style={styles.subHeading}>Attachments</Text>
                 <View style={styles.buttonsContainer}>
-                    <Pressable style={styles.button}>
+                    <Pressable style={styles.button} onPress={openCamera}>
                         <Ionicons name="camera" size={26} color="white" />
                         <Text style={styles.buttonText}>Camera</Text>
                     </Pressable>
-                    <Pressable style={styles.button}>
+                    <Pressable style={styles.button} onPress={pickImage}>
                         <Ionicons name="images" size={24} color="white" />
                         <Text style={styles.buttonText}>Gallery</Text>
                     </Pressable>
-                    <Pressable style={styles.button}>
+                    <Pressable style={styles.button} onPress={pickPdf}>
                         <Ionicons name="document" size={24} color="white" />
                         <Text style={styles.buttonText}>PDF</Text>
                     </Pressable>
@@ -33,19 +75,24 @@ function HomeScreen({navigation}){
                 <View style={styles.attachmentContainer}>
                     <Text style={styles.containerHeading}>Selected Images</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                       <ImageAttachment path={require('../assets/images/img1.png')} onPress={()=>navigation.navigate('ImageDisplay')}/>
-                       <ImageAttachment path={require('../assets/images/img1.png')} onPress={()=>navigation.navigate('ImageDisplay')}/>
-                       <ImageAttachment path={require('../assets/images/img1.png')} onPress={()=>navigation.navigate('ImageDisplay')}/>
-                       <ImageAttachment path={require('../assets/images/img1.png')} onPress={()=>navigation.navigate('ImageDisplay')}/>
+                       {imageAttachments.map((item, index) => (
+                                <ImageAttachment
+                                    key={index}
+                                    uri={ item.uri }
+                                    onPress={() => handleImagePress(item.uri)}
+                                />
+                            ))}
                     </ScrollView>
                 </View>
                 <View style={styles.attachmentContainer}>
                     <Text style={styles.containerHeading}>Selected Documents</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                       <PdfAttachment onPress={()=> navigation.navigate('PdfDisplay')}/>
-                       <PdfAttachment onPress={()=> navigation.navigate('PdfDisplay')}/>
-                       <PdfAttachment onPress={()=> navigation.navigate('PdfDisplay')}/>
-                       <PdfAttachment onPress={()=> navigation.navigate('PdfDisplay')}/>
+                       {pdfAttachments.map((item, index) => (
+                                <PdfAttachment
+                                    key={index}
+                                    onPress={() => handlePdfPress(item.uri)}
+                                />
+                            ))}
                     </ScrollView>
                 </View>
             </View>

@@ -1,26 +1,52 @@
-import { StyleSheet, View , Text} from "react-native";
+import { StyleSheet, View, Dimensions, Platform } from "react-native";
 import { StatusBar } from 'expo-status-bar';
+import { WebView } from 'react-native-webview';
 
-function PdfDisplay(){
+function PdfDisplay({ route }) {
+    const { uri } = route.params;
+
     return (
         <>
-        <StatusBar style="dark" />
-        <View style={styles.rootContainer}>
-            <Text style={styles.text}>Sorry! Can't view PDF in Expo Go :)</Text>
-        </View>
+            <StatusBar style="dark" />
+            <View style={styles.rootContainer}>
+                {Platform.OS === 'web' ? (
+                    <iframe
+                        src={uri}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            border: 'none'
+                        }}
+                        title="PDF Viewer"
+                    />
+                ) : (
+                    <WebView
+                        source={{ uri }}
+                        style={styles.pdf}
+                        startInLoadingState
+                        scalesPageToFit
+                        javaScriptEnabled
+                    />
+                )}
+            </View>
         </>
     );
-};
+}
 export default PdfDisplay;
+// ...existing styles...
 const styles = StyleSheet.create({
     rootContainer:{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: '#fff'
     },
-    text:{
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#aaa'
+    // text:{
+    //     fontSize: 18,
+    //     fontWeight: 'bold',
+    //     color: '#aaa'
+    // },
+    pdf: {
+        flex: 1,
+        width: Dimensions.get('window').width,
     }
+
 });
