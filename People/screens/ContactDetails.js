@@ -1,15 +1,49 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, ToastAndroid, Platform } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useEffect, useState } from "react";
 
 function ContactDetails({route}){
     const {person,phone, path} = route.params;
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [hasPressedFavorite, setHasPressedFavorite] = useState(false); 
+
+  useEffect(()=>{
+    ToastAndroid.show(`${person}'s profile is opened`, ToastAndroid.SHORT);
+    return ()=> {
+        ToastAndroid.show(`${person}'s profile is closed`, ToastAndroid.SHORT);
+    };
+  },[]);
+  
+  const toggleFavorite = () => {
+    setIsFavorite(prev => !prev);
+    setHasPressedFavorite(true); 
+  };
+
+  useEffect(() => {
+    if (!hasPressedFavorite) return;
+
+    const message = isFavorite ? "Added to Favorites" : "Removed from Favorites";
+
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+    } else {
+      console.log(message); 
+    }
+  }, [isFavorite]);
+
+    
     return (
         <View style={styles.rootContainer}>
             <View style={styles.headerContainer}>
                 <Ionicons name="arrow-back" size={24} color="black" />
                 <View style={styles.headerSubContainer}>
                     <Ionicons name="pencil" size={24} color="black" />
-                    <Ionicons name="star-outline" size={24} color="black" />
+                    <Ionicons 
+                        name={isFavorite ? "star" : "star-outline"} 
+                        size={24} 
+                        color={isFavorite ? "black" : "black"} 
+                        onPress={toggleFavorite}
+                    />
                     <Ionicons name="settings-outline" size={24} color="black" />
                 </View>
             </View>

@@ -1,7 +1,42 @@
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, Alert, AppState } from "react-native";
 import Card from "../components/Card";
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useEffect, useRef } from 'react';
+// import { useIsFocused } from "@react-navigation/core";
 
 function HomeScreen({navigation}){
+  // const isFocused = useIsFocused();
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     Alert.alert("Information", 'contacts added');
+  //   }
+  // }, [isFocused]);
+    
+  useFocusEffect(
+    useCallback(() => {
+      Alert.alert("Notice", "This is your Home Screen.");
+    }, [])
+  );
+   const appState = useRef(AppState.currentState);
+
+useEffect(() => {
+  const subscription = AppState.addEventListener("change", nextAppState => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      Alert.alert("Notice", "This is your Home Screen.");
+    }
+
+    appState.current = nextAppState;
+  });
+
+  return () => {
+    subscription.remove();
+  };
+}, [])
+
     const contacts = [
     { id: 1, person: 'Ameer', phone: '+91 9876543210',
         path: require('../assets/images/Ameer.png')
