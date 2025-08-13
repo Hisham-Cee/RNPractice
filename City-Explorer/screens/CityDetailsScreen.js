@@ -4,7 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import CityDetailsCard from "../components/Cards/CityDetailsCard";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MustVisit from "../components/DummyData/MustVisit";
-import MustVisitCard from "../components/Cards/MustVisitCard";
+
+import DestinationCard from "../components/Cards/DestinationCard";
 
 
 function CityDetailsScreen({navigation}){
@@ -71,7 +72,7 @@ function CityDetailsScreen({navigation}){
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {MustVisit.map((destination)=> (
                         <Pressable key={destination.id}>
-                            <MustVisitCard 
+                            <DestinationCard 
                                 path={destination.path}
                                 city={destination.city}
                                 place={destination.place}

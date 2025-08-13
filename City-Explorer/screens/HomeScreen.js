@@ -46,6 +46,7 @@ function HomeScreen({navigation}){
                                 place={destination.place}
                                 amount={destination.amount}
                                 rating={destination.rating}
+                                imageRight={true} 
                             />
                         </Pressable>
                     ))}

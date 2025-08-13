@@ -1,9 +1,12 @@
 import { Image, StyleSheet, View, Text } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
-function DestinationCard({path, city, place, amount, rating}){
+function DestinationCard({path, city, place, amount, rating, imageRight = false}){
     return(
-        <View style={styles.rootContainer}>
+        <View style={[
+            styles.rootContainer,
+            imageRight && { flexDirection: 'row-reverse' }
+        ]}>
             <Image source={path} style={styles.image}/>
             <View style={styles.subContainer}>
                 <View style={styles.textContainer}>
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
         width: 55,
         height: 55,
         borderRadius: 30,
-        marginRight: 10
+        marginHorizontal: 5,
     },
     textContainer:{
         
