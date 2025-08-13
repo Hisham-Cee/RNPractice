@@ -13,8 +13,7 @@ function Card({person, phone, onPress}){
                 <View style={styles.align}>
                     <Pressable onPress={onPress} >
                         <Text style={styles.nameText}>{person}</Text>
-                    
-                    <Text style={styles.numText}>{phone}</Text>
+                        <Text style={styles.numText}>{phone}</Text>
                     </Pressable>
                 </View>
                 <Pressable style={styles.button} onPress={callHandler}>
